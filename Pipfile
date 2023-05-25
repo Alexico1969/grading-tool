@@ -7,6 +7,7 @@ name = "pypi"
 flask = "*"
 tabula-py = "*"
 pandas = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

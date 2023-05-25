@@ -2,19 +2,33 @@
 <html>
     <head>
         <title>Data dump</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
     </head>
     <body>
-        <h1>Data dump</h1>
-        <table>
+        <div class="container">
+            <h1>Data dump</h1>
+            <table>            
+            {% for row in data %}
+                {% if 'Possible' in row[0] %}
+                    <tr>
+                        {% for el in row %}
+                            <th>{{ el }}</th>
+                        {% endfor %}
+                    </tr>
 
-        
-        {% for row in data %}
-            <tr>
-            {% for el in row %}
-                <td>{{ el }}</td>
+                {% else %}
+                    <tr>
+                        {% for el in row %}
+                            <td>{{ el }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
             {% endfor %}
-            </tr>
-        {% endfor %}}
-        </table>
+            </table>
+        </div>
     </body>
 </html>

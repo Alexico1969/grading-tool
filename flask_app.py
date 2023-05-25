@@ -108,51 +108,30 @@ def groups():
             return 'No filename provided', 400
         if file and allowed_file(file.filename):
             newfilename = secure_filename(newfilename)
-            chapter = request.form.get('chapter')
             # Keep the extension of the original file
             extension = file.filename.rsplit('.', 1)[1].lower()
-            newfilename = f"{newfilename}.{extension}"
+            newfilename = f"students.{extension}"
             filepath=os.path.join(app.config['UPLOAD_FOLDER'], newfilename)
             file.save(filepath)
             # Read the file and return the data
-            if extension == 'csv':
-                data = pd.read_csv(filepath)
-            elif extension == 'txt':
-                data = pd.read_csv(filepath, sep='\t')
-            elif extension == 'pdf':
-                data = pd.read_csv(filepath, sep='\t')
+            if extension == 'xls':
+                data = pd.read_excel(filepath)
             else:
-                return 'File not allowed', 400
+                return f'File type not allowed: {extension}', 400
 
             # Include "Student" column
-            new_df = data[['Student']]
+            new_df = data
 
             # Include any column that contains the current chapter
             for col in data.columns:
-                if chapter in col:
-                    new_df = pd.concat([new_df, data[col]], axis=1)
+                first_name = col[0]
+                print(f"first_name: {first_name}")
 
             list_2d = new_df.values.tolist()
 
-            points_possible = list_2d[0]
-            points_possible = points_possible[1:]
-            total_points_possible = 0
-            for i in points_possible:
-                total_points_possible += i
 
             #new_list = []
-
-            for student in list_2d:
-                total = 0
-
-                for grade in student[1:]:
-                    total += grade
-                try:
-                    student.append(int(total/total_points_possible*100))
-                except:
-                    student.append(0)
-
-            #print(f"filtered data: {filtered_data}")
+            print(f"data: {data}")
 
             return render_template('output_grades.html', data=list_2d)
         else:
