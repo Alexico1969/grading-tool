@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>Grading-tool</title>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Grading-tool</h1>
+            <p>Grading-tool is a tool to help our CS teachers grade their students.</p>
+            <p>It takes in a csv file, created in Project Stem and outputs a more usable table.</p>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <h3>Groups</h3>
+                <p>Upload students names plus associated groups they're in.</p>
+                <p><a href="{{ url_for('groups') }}" class="btn btn-primary">Groups</a></p>
+            </div>
+            <div class="col-sm-4">
+                <h3>Grades</h3>
+                <p>Here you can upload your list of grades (csv file). Automatically the list will be converted to a more usable one.</p>
+                <p><a href="{{ url_for('grades') }}" class="btn btn-primary">Grades</a></p>
+            </div>
+        </div>
+</body>
+</html>
