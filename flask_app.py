@@ -14,7 +14,7 @@ data = []
 #app.config['UPLOAD_FOLDER'] = '/path/to/upload/folder'
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'uploads')
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'csv'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'csv', 'xls'}
 
 # Function to check allowed file
 def allowed_file(filename):
@@ -123,17 +123,24 @@ def groups():
             new_df = data
 
             # Include any column that contains the current chapter
-            for col in data.columns:
-                first_name = col[0]
-                print(f"first_name: {first_name}")
+            #for col in data.columns:
+            #    first_name = col[0]
+            #    print(f"first_name: {first_name}")
 
             list_2d = new_df.values.tolist()
+            new_list = []
+            for student in list_2d:
+                temp = student[0]
+                if temp != 'nan':
+                    new_list.append(temp)
+                else:
+                    print("NaN !!")
+            
 
 
-            #new_list = []
-            print(f"data: {data}")
+            print(new_list)
 
-            return render_template('output_grades.html', data=list_2d)
+            return render_template('output_groups.html', data=new_list)
         else:
             return 'File not allowed', 400
         

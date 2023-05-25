@@ -8,6 +8,7 @@ flask = "*"
 tabula-py = "*"
 pandas = "*"
 python-dotenv = "*"
+xlrd = "*"
 
 [dev-packages]
 
