@@ -22,11 +22,12 @@
 
                 {% else %}
                     <tr>
-                        <td>###{{row}}###</td>
+                        <td>{{row}}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
             </table>
+            <a href="{{url_for('home')}}"><button class="home">home</button></a>
         </div>
     </body>
 </html>
