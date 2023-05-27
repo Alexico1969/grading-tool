@@ -192,6 +192,8 @@ def table():
         new_list = []
         print(f"checklist: {check_list}")
         for student in list_2d:
+            temp = student[0].split(" ")
+            student[0] = temp[0] + " " + temp[1]
             if student[0] in check_list:
                 total = 0
                 counter = 0
