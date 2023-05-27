@@ -5,7 +5,8 @@ from jinja2 import Environment, FileSystemLoader
 from werkzeug.utils import secure_filename
 import os
 import pandas as pd
-import csv
+import numpy as np
+import math
 from db import init_db, insert_student, get_students, get_student, update_student, delete_student, get_all_students
 
 
@@ -129,11 +130,6 @@ def groups():
             # Include "Student" column
             new_df = data
 
-            # Include any column that contains the current chapter
-            #for col in data.columns:
-            #    first_name = col[0]
-            #    print(f"first_name: {first_name}")
-
             list_2d = new_df.values.tolist()
             new_list = []
             for student in list_2d:
@@ -196,19 +192,26 @@ def table():
         new_list = []
         print(f"checklist: {check_list}")
         for student in list_2d:
-            #for el in student:
-            #    if str(el) == "nan":
-             #       el = 0
             if student[0] in check_list:
                 total = 0
+                counter = 0
                 for grade in student[1:]:
-                    if grade not in [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]:
+                    if math.isnan(grade) :
                         grade = 0
                     total += grade
+                    student[counter+1] = grade
+                    counter += 1
+                else:
+                    grade = float(grade)
                 try:
                     student.append(int(total/total_points_possible*100))
                 except:
                     student.append(0)
+                
+
+                if student[0] == "Budhwani, Fiza":
+                    print(f"student Fiza : {student}")
+                
                 new_list.append(student)
             else:
                 print(f"NOT IN LIST: {student[0]}")
