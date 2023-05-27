@@ -18,17 +18,43 @@
             <div class="col-sm-4">
                 <h3>Upload Groups</h3>
                 <p>Upload students names plus associated groups they're in.</p>
-                <p><a href="{{ url_for('groups') }}" class="btn btn-primary">Groups</a></p>
+                <p><a href="{{ url_for('groups') }}" class="btn btn-primary">Upload</a></p>
+                <br>
+                <h3>Edit Groups</h3>
+                <p>Here you can edit the groups you've uploaded.</p>
+                <p><a href="{{ url_for('edit_groups') }}" class="btn btn-info">Edit</a></p>
             </div>
             <div class="col-sm-4">
                 <h3>Upload Grades</h3>
                 <p>Here you can upload your list of grades (csv file). Automatically the list will be converted to a more usable one.</p>
-                <p><a href="{{ url_for('grades') }}" class="btn btn-primary">Grades</a></p>
+                <p><a href="{{ url_for('grades') }}" class="btn btn-primary">Upload</a></p>
             </div>
             <div class="col-sm-4">
                 <h3>Create Table</h3>
                 <p>Creating a table for a specific unit in Project stem(f.e. 4.8)</p>
-                <p><a href="{{ url_for('table') }}" class="btn btn-primary">Grades</a></p>
+                <p><a href="{{ url_for('table') }}" class="btn btn-primary">Create</a></p>
+            </div>
+        </div>
+        <br>
+        <div class="row instructions bg-light">
+            <h1>Instructions to export data from BlackBaud</h1>
+            <div class="col-sm-6 bg-light">
+                <h2>Export Groups</h2>
+                <ul>
+                    <li>BLACKBAUD: Go to the Gradebook</li>
+                    <li>Click on "Grades by student"</li>
+                    <li>Click on "Export data to Excel"</li>
+                    <li>Save the file, rename to group name</li>
+                </ul>
+            </div>
+            <div class="col-sm-6 bg-light">
+                <h2>Export Grades</h2>
+                <ul>
+                    <li>PR.STEM: Go to "Grades"</li>
+                    <li>Filter Assignments (f.e. all 4.8 assignm.)</li>
+                    <li>Dropdown: Actions --> Export current Gradebook view</li>
+                </ul>
+
             </div>
         </div>
 </body>

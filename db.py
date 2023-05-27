@@ -45,10 +45,10 @@ def get_student(first_name, last_name):
     conn.close()
     return student
 
-def update_student(first_name, last_name, group):
+def update_student(first_name, last_name, group, new_first_name, new_last_name, new_group):
     conn = sqlite3.connect('database.db')
     print("Opened database successfully")
-    conn.execute("UPDATE students SET group_name = ? WHERE first_name = ? AND last_name = ?", (group, first_name, last_name))
+    conn.execute("UPDATE students SET first_name = ?, last_name = ?, group_name = ? WHERE first_name = ? AND last_name = ? AND group_name = ?", (new_first_name, new_last_name, new_group, first_name, last_name, group))
     conn.commit()
     print("Records updated successfully")
     conn.close()

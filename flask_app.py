@@ -1,5 +1,5 @@
 # Importing required modules
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 from jinja2 import Environment, FileSystemLoader
 
 from werkzeug.utils import secure_filename
@@ -161,6 +161,7 @@ def groups():
         
     return render_template('upload_groups.html')
 
+
 @app.route('/table', methods=['GET','POST'])
 def table():
     if request.method == 'POST':
@@ -220,6 +221,59 @@ def table():
 
     return render_template('ask_table_properties.html')
 
+@app.route('/edit_groups', methods=['GET','POST'])
+def edit_groups():
+    if request.method == 'POST':
+        first_name = request.form.get('firstName')
+        last_name = request.form.get('lastName')
+        group_name = request.form.get('groupName')
+
+        print(f"first_name: {first_name}")
+        print(f"last_name: {last_name}")
+        print(f"group_name: {group_name}")
+
+        if first_name and last_name and group_name:
+            return render_template('update_student.html', first_name=first_name, last_name=last_name, group_name=group_name)
+        else:
+            last_name = ""
+            return render_template('update_student.html', first_name=first_name, last_name=last_name, group_name=group_name)
+
+    students = get_all_students()
+
+    return render_template('edit_groups.html', students=students)
+    
+
+@app.route('/upd_student', methods=['GET','POST'])
+def upd_student():
+    if request.method == 'POST':
+        print("Updating student")
+        first_name = request.form.get('old_first_name')
+        last_name = request.form.get('old_last_name')
+        group_name = request.form.get('old_group_name')
+        new_first_name = request.form.get('new_first_name')
+        new_last_name = request.form.get('new_last_name')
+        new_group_name = request.form.get('new_group_name')
+
+        print(f"first_name: {first_name}")
+        print(f"last_name: {last_name}")
+        print(f"group_name: {group_name}")
+        print(f"new_first_name: {new_first_name}")
+        print(f"new_last_name: {new_last_name}")
+        print(f"new_group_name: {new_group_name}")
+
+        if first_name and last_name and group_name and new_first_name and new_last_name and new_group_name:
+            update_student(first_name, last_name, group_name, new_first_name, new_last_name, new_group_name)
+            return redirect( url_for('edit_groups') )
+        else:
+            last_name = ""
+            update_student(first_name, last_name, group_name, new_first_name, new_last_name, new_group_name)
+            return redirect( url_for('edit_groups') )
+    
+    students = get_all_students()
+
+    return render_template('edit_groups.html', students=students)
+
+# ------------------------------------------------------------
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

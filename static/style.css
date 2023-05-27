@@ -49,3 +49,8 @@ td{
     font-weight: bold;
     width: 60px;
 }
+
+.instructions{
+    background-color: #bebbbb;
+    border: #212529 1px solid;
+}
