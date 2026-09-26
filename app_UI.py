@@ -13,7 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
 
 from secret import usr, psw  # your credentials
 
@@ -21,8 +21,11 @@ from secret import usr, psw  # your credentials
 # ----------------------------
 # SQLite: single, robust row (id=1)
 # ----------------------------
+# Keep the DB next to this script so settings persist regardless of the working directory
+DB_PATH = Path(__file__).resolve().parent / "settings.db"
+
 def initialize_database():
-    conn = sqlite3.connect("settings.db")
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("""
       CREATE TABLE IF NOT EXISTS settings (
@@ -42,7 +45,7 @@ def initialize_database():
 
 
 def get_default_settings():
-    conn = sqlite3.connect("settings.db")
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("SELECT section, assignment FROM settings WHERE id = 1")
     row = c.fetchone()
@@ -51,7 +54,7 @@ def get_default_settings():
 
 
 def save_settings(section, assignment):
-    conn = sqlite3.connect("settings.db")
+    conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute("""
       INSERT INTO settings (id, section, assignment)
@@ -114,9 +117,16 @@ def extract_score_any_page(driver, wait: WebDriverWait) -> str:
             (By.XPATH, "//button[contains(normalize-space(.), 'Check Code')]")
         ))
         check_btn.click()
-        # When autograder finishes, a #score-text is present/updated
-        score_elem = wait.until(EC.visibility_of_element_located((By.ID, "score-text")))
-        return score_elem.text.strip()
+        # #score-text shows a placeholder ("x/x") until the autograder finishes,
+        # so wait until it contains an actual numeric score like "3/5"
+        wait.until(EC.visibility_of_element_located((By.ID, "score-text")))
+        try:
+            WebDriverWait(driver, 60, ignored_exceptions=(StaleElementReferenceException,)).until(
+                lambda d: re.search(r"\d+\s*/\s*\d+", d.find_element(By.ID, "score-text").text)
+            )
+        except TimeoutException:
+            pass  # autograder never finished; report whatever is shown
+        return driver.find_element(By.ID, "score-text").text.strip()
     except TimeoutException:
         # Fall back to quiz page parse (no "Check Code")
         pass
@@ -165,37 +175,28 @@ def start_scraper():
         # but only student_id is needed for navigation.
         # IDs are synced to what you pasted from the live page.
         students = [
-            ("Budin, Daniel", '6818579'),
-            ("Cabeza, Bella", '6818580'),
-            ("Chan, Emma", '6818543'),
-            ("Cheung, Anson", '6818592'),
-            ("Chung, Abrianna", '6818833'),
-            ("Dai, Suri", '6818487'),
-            ("David, Victor", '6818583'),
-            ("Day, Pierson", '6818540'),
-            ("Hinners, Christopher", '6813954'),
-            ("Iniguez, Alexander", '6818552'),
-            ("Kacziba, Lilly", '6818548'),
-            ("Khan, Mahdi", '6818551'),        # fixed leading zero
-            ("Kovacs, Maximillian", '6818550'),
-            ("Lacourt, Lucas", '4174700'),
-            ("Lombardo, Ryder", '6818593'),
-            ("Martinez, Lukas Xavier", '6818873'),
-            ("Morelli, Joseph", '6818874'),
-            ("O'Donohue, Daniel", '6818688'),
-            ("Otolorin, Jordan", '6809053'),
-            ("Pena, Eric", '6818591'),
-            ("Perez, Kirstine", '6818549'),
-            ("Pinlac, Ethan", '6818553'),
-            ("Puracchio, Marek", '6818545'),
-            ("Ramkirath, Ethan", '6818589'),
-            ("Samaroo, Brandon", '6818546'),
-            ("Sefaj, Emma", '6818564'),
-            ("Sosa, Mauricio", '6818588'),
-            ("Xiao, Matthew", '6818590'),
-            ("Yao, Nicole", '6831630'),
-            ("Zaheid, Sameera", '6810766'),
-            ("Zamir, Jayden", '6806849'),
+            ("Artemyev, Mason", '8012502'),
+            ("Bhatti, Aydenviraj (Ayden)", '8032708'),
+            ("Bifulco, Salvatore", '8012547'),
+            ("Chaglla, Romina", '8012546'),
+            ("Chen, Collin", '8012572'),
+            ("Colin-Keita, Sophia", '8012544'),
+            ("Gellineau, Joshua", '8012506'),
+            ("Liu, Gongchen", '8012525'),
+            ("Lo, James", '8012579'),
+            ("Maingrette, Evan", '8012505'),
+            ("Marina, Emma", '8012503'),
+            ("McGuire, Aileen", '8005993'),
+            ("Miazga, Christian", '8012578'),
+            ("Nembhard, Michael (Mike)", '8012580'),
+            ("Qirko, Alexander (Alex)", '8012508'),
+            ("Ruiz, Conner", '8012575'),
+            ("Sultan, Muhammad (Adam)", '8012509'),
+            ("Valjato, Gregory", '8012573'),
+            ("wagner, Robert", '8012519'),
+            ("Weber, Valerie", '8012507'),
+            ("Younggren, Ori", '8005992'),
+                        
         ]
 
         # Clear previous results in UI
@@ -343,6 +344,17 @@ print_button.pack(side=tk.LEFT, padx=6)
 
 save_csv_button = ttk.Button(btn_row, text="Save CSV", command=save_results_csv)
 save_csv_button.pack(side=tk.LEFT, padx=6)
+
+
+def on_close():
+    # Remember the last-entered section/assignment even if the scraper was never started
+    try:
+        save_settings(section_entry.get().strip(), assignment_entry.get().strip())
+    finally:
+        root.destroy()
+
+
+root.protocol("WM_DELETE_WINDOW", on_close)
 
 results_frame = ttk.Frame(root, padding=10)
 results_frame.pack(fill=tk.BOTH, expand=True)
