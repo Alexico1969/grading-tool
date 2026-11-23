@@ -1,0 +1,969 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Number Conversion Grades</title>
+<style>
+body{font-family:Segoe UI,Arial,sans-serif;margin:24px;color:#1d2330;background:#f6f7f9}
+h1{font-size:22px;margin:0 0 4px} p{margin:0 0 16px;color:#555;font-size:14px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13px}
+th{background:#1f3a5f;color:#fff;text-align:left;padding:8px;position:sticky;top:0}
+td{border-top:1px solid #e3e6ea;padding:8px;vertical-align:top}
+td.f{font-weight:600;word-break:break-all;width:14%} td.c{text-align:center;white-space:nowrap}
+.s{display:inline-block;min-width:34px;padding:3px 6px;border-radius:4px;font-weight:700;color:#fff}
+.hi{background:#2e7d32} .mid{background:#c98a00} .lo{background:#c62828}
+td:last-child{width:45%}
+pre{margin:6px 0 0;background:#0f172a;color:#e2e8f0;padding:10px;border-radius:6px;font:12px Consolas,monospace;max-height:420px;overflow:auto;white-space:pre}
+summary{cursor:pointer;color:#1f3a5f;font-weight:600}
+</style></head><body>
+<h1>Number System Conversion &#8212; Grades</h1>
+<p>Rubric (0&#8211;100): Dec&#8594;Bin 40 &#183; each bonus +10 &#183; elegance up to +10 &#183; user-friendliness up to +10 &#183; minus bug/crash deductions. Click a code cell to expand.</p>
+<p><button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)">Expand all code</button> <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)">Collapse all</button></p>
+<table><tr><th>File</th><th>Bonuses</th><th>Score</th><th>Reason</th><th>Code</th></tr>
+<tr><td class="f">AMcGuire_EMarina_EMaingrette.txt</td><td class="c">1,2,3,4</td><td class="c"><span class="s hi">92</span></td><td>All 6 conversions, letter menu, full input validation, accepts lowercase hex, repeat option. Heavy code duplication (~200 lines), recursion instead of loops, binary &quot;0&quot; gives empty hex.</td><td><details><summary>208 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)
+
+#start menu
+def gui_start():
+    print(&quot;Which conversion method are you using?:&quot;)
+    print(&quot;A - binary to decimal&quot;)
+    print(&quot;B - binary to hexadecimal&quot;)
+    print(&quot;C - decimal to binary&quot;)
+    print(&quot;D - decimal to hexadecimal&quot;)
+    print(&quot;E - hexadecimal to binary&quot;)
+    print(&quot;F - hexadecimal to decimal&quot;)
+    method = input(&quot;choose method: &quot;).lower()
+
+    valid_letters = [&quot;a&quot; , &quot;b&quot; , &quot;c&quot; , &quot;d&quot; , &quot;e&quot; , &quot;f&quot;]
+    if method in valid_letters:
+        method_sort(method)
+
+    else:
+        print(&quot;Not a valid choice, try again.&quot;)
+        gui_start()
+
+#restart code to menu
+def restart():
+    redo = input(&quot;Would you like to do another conversion, yes or no?: &quot;).lower()
+    if redo == &quot;yes&quot;:
+        gui_start()
+    elif redo == &quot;no&quot;:
+        print(&quot;restart code to do another conversion&quot;)
+    else:
+        print(&quot;not a valid choice&quot;)
+        restart()
+        
+#binary to decimal conversion
+def b_d():
+    print(&quot;binary -&gt; decimal&quot;)
+    
+    number = input(&quot;Enter a 1-8 bit binary code: &quot;)
+
+    if 1 &lt;= len(number) &lt;= 8 and all(digit in &quot;01&quot; for digit in number):
+
+        decimal = 0
+
+        for digit in number:
+            decimal = decimal * 2 + int(digit)
+
+        print(&quot;Decimal:&quot;, decimal)
+        restart()
+
+    else:
+        print(&quot;Not a valid number. Try again.&quot;)
+        b_d()
+
+#binary to hexadecimal converion
+def b_h():
+    print(&quot;binary -&gt; hexadecimal&quot;)
+    number = input(&quot;Enter a 1-8 bit binary code: &quot;)
+
+    if 1 &lt;= len(number) &lt;= 8 and all(digit in &quot;01&quot; for digit in number):
+        
+        decimal = 0
+
+        for digit in number:
+            decimal = decimal * 2 + int(digit)
+
+        # Convert decimal to hexadecimal
+        hexadecimal = &quot;&quot;
+
+        while decimal &gt; 0:
+            remainder = decimal % 16
+
+            if remainder &lt; 10:
+                hexadecimal = str(remainder) + hexadecimal
+            else:
+                hexadecimal = chr(55 + remainder) + hexadecimal
+
+            decimal = decimal // 16
+
+        print(&quot;Hexadecimal:&quot;, hexadecimal)
+        
+        restart()
+
+
+    else:
+        print(&quot;Not a valid number. Try again.&quot;)
+        b_h()
+
+#decimal to binary conversion
+def d_b():
+    print(&quot;decimal -&gt; binary&quot;)
+    number = input(&quot;Enter a decimal number from 1-255: &quot;)
+
+    if number.isdigit() and 1 &lt;= int(number) &lt;= 255:
+        decimal = int(number)
+        binary = &quot;&quot;
+
+        while decimal &gt; 0:
+            remainder = decimal % 2
+            binary = str(remainder) + binary
+            decimal = decimal // 2
+
+        print(&quot;Binary:&quot;, binary)
+        restart()
+
+    else:
+        print(&quot;Not a valid number. Try again.&quot;)
+        d_b()
+
+#decimal to hexadecimal conversion
+def d_h():
+    print(&quot;decimal -&gt; hexadecimal&quot;)
+
+    number = input(&quot;Enter a decimal number from 1-255: &quot;)
+
+    if number.isdigit() and 1 &lt;= int(number) &lt;= 255:
+
+        decimal = int(number)
+        hexadecimal = &quot;&quot;
+
+        while decimal &gt; 0:
+            remainder = decimal % 16
+
+            if remainder &lt; 10:
+                hexadecimal = str(remainder) + hexadecimal
+            else:
+                hexadecimal = chr(55 + remainder) + hexadecimal
+# chr returns a single-character string from an integer representing its Unicode code point - puts it back to a letter
+            decimal = decimal // 16
+
+        print(&quot;Hexadecimal:&quot;, hexadecimal)
+        restart()
+
+    else:
+        print(&quot;Not a valid number. Try again.&quot;)
+        d_h()
+
+#hexadecimal to binary conversion
+def h_b():
+    print(&quot;hexadecimal -&gt; binary&quot;)
+
+    number = input(&quot;Enter a 1-2 digit hexadecimal number: &quot;).upper()
+#len is how many items are in an object and all is if they are iterable
+    if 1 &lt;= len(number) &lt;= 2 and all(digit in &quot;0123456789ABCDEF&quot; for digit in number):
+
+        decimal = 0
+
+        for digit in number:
+            if digit.isdigit():
+                value = int(digit)
+            else:
+                value = ord(digit) - 55
+#ord is converting it to unicode
+            decimal = decimal * 16 + value
+
+        binary = &quot;&quot;
+
+        while decimal &gt; 0:
+            remainder = decimal % 2
+            binary = str(remainder) + binary
+            decimal = decimal // 2
+
+        print(&quot;Binary:&quot;, binary)
+        restart()
+
+    else:
+        print(&quot;Not a valid number. Try again.&quot;)
+        h_b()
+
+#hexadecimal to decimal conversion
+def h_d():
+    print(&quot;hexadecimal -&gt; decimal&quot;)
+
+    number = input(&quot;Enter a 1-2 digit hexadecimal number: &quot;).upper()
+
+    if 1 &lt;= len(number) &lt;= 2 and all(digit in &quot;0123456789ABCDEF&quot; for digit in number):
+
+        decimal = 0
+#is digit makes sure it is a number and upper makes input uppercase
+        for digit in number:
+            if digit.isdigit():
+                value = int(digit)
+            else:
+                value = ord(digit) - 55
+
+            decimal = decimal * 16 + value
+
+        print(&quot;Decimal:&quot;, decimal)
+        restart()
+
+    else:
+        print(&quot;Not a valid number. Try again.&quot;)
+        h_d()
+
+#sorts method of conversion
+def method_sort(method):
+    if method == (&quot;a&quot;):
+        b_d()
+    elif method == (&quot;b&quot;):
+        b_h()
+    elif method == (&quot;c&quot;):
+        d_b()
+    elif method == (&quot;d&quot;):
+        d_h()
+    elif method == (&quot;e&quot;):
+        h_b()
+    elif method == (&quot;f&quot;):
+        h_d()
+#start code
+gui_start()</pre></details></td></tr><tr><td class="f">CChen.txt</td><td class="c">1,2,3,4</td><td class="c"><span class="s hi">87</span></td><td>All bonuses, error handling, handles 0, some function reuse. Long if/elif chains, dec_to_hex duplicates bin_to_hex, lowercase hex rejected, empty input crashes, no repeat.</td><td><details><summary>188 lines</summary><pre>def decimal_binary(dec):
+    dec = str(dec)
+    if dec == &quot; &quot;:
+        return &quot;nope&quot;
+    for char in dec:
+        if char not in &quot;0123456789&quot;:
+            return &quot;nope&quot;
+ 
+    dec = int(dec)
+    if dec == 0:
+        return &quot;0&quot;
+    
+    bin1 = &quot;&quot;
+    while dec &gt; 0:
+        rem = dec % 2
+        if rem == 1:
+            bin1 = &quot;1&quot; + bin1
+        else:
+            bin1 = &quot;0&quot; + bin1
+        dec = dec // 2
+    
+    return bin1
+ 
+def bin_dec(binS):
+    binS = str(binS)
+    
+    if binS == &quot; &quot;:
+        return &quot;nope&quot;
+        
+    dec = 0
+    for digit in binS:
+        dec = dec * 2
+        if digit == &quot;1&quot;:
+            dec = dec + 1
+        elif digit == &quot;0&quot;:
+            dec = dec + 0
+        else:
+            return &quot;nope&quot;
+    return dec
+ 
+def hex_bin_dec(hex1):
+    text = str(hex1)
+    if text == &quot; &quot;:
+        return &quot;nope&quot;
+        
+    decimal_total = 0
+    for char in text:
+        decimal_total = decimal_total * 16
+        if char == &quot;0&quot;:
+            decimal_total = decimal_total + 0
+        elif char == &quot;1&quot;:
+            decimal_total = decimal_total + 1
+        elif char == &quot;2&quot;:
+            decimal_total = decimal_total + 2
+        elif char == &quot;3&quot;:
+            decimal_total = decimal_total + 3
+        elif char == &quot;4&quot;:
+            decimal_total = decimal_total + 4
+        elif char == &quot;5&quot;:
+            decimal_total = decimal_total + 5
+        elif char == &quot;6&quot;:
+            decimal_total = decimal_total + 6
+        elif char == &quot;7&quot;:
+            decimal_total = decimal_total + 7
+        elif char == &quot;8&quot;:
+            decimal_total = decimal_total + 8
+        elif char == &quot;9&quot;:
+            decimal_total = decimal_total + 9
+        elif char == &quot;A&quot;:
+            decimal_total = decimal_total + 10
+        elif char == &quot;B&quot;:
+            decimal_total = decimal_total + 11
+        elif char == &quot;C&quot;:
+            decimal_total = decimal_total + 12
+        elif char == &quot;D&quot;:
+            decimal_total = decimal_total + 13
+        elif char == &quot;E&quot;:
+            decimal_total = decimal_total + 14
+        elif char == &quot;F&quot;:
+            decimal_total = decimal_total + 15
+        else:
+            return &quot;nope&quot;
+    bin1 = decimal_binary(decimal_total)
+    return bin1 + &quot; &quot; + str(decimal_total)
+ 
+def bin_to_hex(x):
+    dec = bin_dec(x)
+    if dec == &quot;nope&quot;:
+        return &quot;nope&quot;
+    if dec == 0:
+        return &quot;0&quot;
+    hex2 = &quot;&quot;
+    while dec &gt; 0:
+        rem = dec % 16
+        if rem == 10:
+            hex2 = &quot;A&quot; + hex2
+        elif rem == 11:
+            hex2 = &quot;B&quot; + hex2
+        elif rem == 12:
+            hex2 = &quot;C&quot; + hex2
+        elif rem == 13:
+            hex2 = &quot;D&quot; + hex2
+        elif rem == 14:
+            hex2 = &quot;E&quot; + hex2
+        elif rem == 15:
+            hex2 = &quot;F&quot; + hex2
+        else:
+            hex2 = str(rem) + hex2
+        dec = dec // 16
+    return hex2
+ 
+def dec_to_hex(x):
+    x = str(x)
+    if x == &quot; &quot;:
+        return &quot;nope&quot;
+    for char in x:
+        if char not in &quot;0123456789&quot;:
+            return &quot;nope&quot;
+    dec = int(x)
+    if dec == 0:
+        return &quot;0&quot;
+    hex2 = &quot;&quot;
+    while dec &gt; 0:
+        rem = dec % 16
+        if rem == 10:
+            hex2 = &quot;A&quot; + hex2
+        elif rem == 11:
+            hex2 = &quot;B&quot; + hex2
+        elif rem == 12:
+            hex2 = &quot;C&quot; + hex2
+        elif rem == 13:
+            hex2 = &quot;D&quot; + hex2
+        elif rem == 14:
+            hex2 = &quot;E&quot; + hex2
+        elif rem == 15:
+            hex2 = &quot;F&quot; + hex2
+        else:
+            hex2 = str(rem) + hex2
+        dec = dec // 16
+    return hex2
+    
+print(&quot;1 = decimal to binary&quot;)
+print(&quot;2 = binary to decimal&quot;)
+print(&quot;3 = hexadecimal to binary and decimal&quot;)
+print(&quot;4 = binary or decimal to hexadecimal&quot;)
+choice = input(&quot;select 1 2 3 or 4:&quot;)
+if choice == &quot;1&quot;:
+    user_dec = input(&quot;enter a decimal: &quot;)
+    result = decimal_binary(user_dec)
+    if result == &quot;nope&quot;:
+        print(&quot;error&quot;)
+    else:
+        print(&quot;binary number: &quot; + result)
+ 
+elif choice == &quot;2&quot;:
+    user_binary = input(&quot;enter a binary: &quot;)
+    result = bin_dec(user_binary)
+    if result == &quot;nope&quot;:
+        print(&quot;error&quot;)
+    else:
+        print(&quot;decimal result: &quot; + str(result))
+        
+elif choice == &quot;3&quot;:
+    user_hexadecimal = input(&quot;enter a hexadecimal: &quot;)
+    result = hex_bin_dec(user_hexadecimal)
+    if result == &quot;nope&quot;:
+        print(&quot;error&quot;)
+    else:
+        print(&quot;result: &quot; + result)
+ 
+elif choice == &quot;4&quot;:
+    choice1 = input(&quot;binary or decimal? &quot;)
+    if choice1 == &quot;binary&quot;:
+        user1 = input(&quot;enter binary: &quot;)
+        result = bin_to_hex(user1)
+        if result == &quot;nope&quot;:
+            print(&quot;error&quot;)
+        else:
+            print(&quot;hexadecimal: &quot; + result)
+    elif choice1 == &quot;decimal&quot;:
+        user1 = input(&quot;enter decimal: &quot;)
+        result = dec_to_hex(user1)
+        if result == &quot;nope&quot;:
+            print(&quot;error&quot;)
+        else:
+            print(&quot;hexadecimal: &quot; + result)
+    else:
+        print(&quot;error&quot;)</pre></details></td></tr><tr><td class="f">GValjato.txt</td><td class="c">1,2,3,4</td><td class="c"><span class="s hi">86</span></td><td>Most elegant: ~20 lines using bin()/int()/hex(). No menu (forces all 4 conversions in a row), no validation (crashes on bad input), lowercase hex output. Uses built-ins, so no algorithm shown.</td><td><details><summary>38 lines</summary><pre>def dec_to_bin(dec_num):
+    return bin(dec_num)[2:]
+
+def bin_to_dec(bin_str):
+    return int(bin_str, 2)
+
+def hex_to_bin_and_dec(hex_str):
+    dec_val = int(hex_str, 16)
+    bin_val = bin(dec_val)[2:]
+    return bin_val, dec_val
+
+def bin_and_dec_to_hex(bin_str, dec_num):
+    hex_from_bin = hex(int(bin_str, 2))[2:]
+    hex_from_dec = hex(dec_num)[2:]
+    return hex_from_bin, hex_from_dec
+
+print(&quot;--- Number Converter ---&quot;)
+
+user_dec = int(input(&quot;Enter a Decimal number to convert to Binary: &quot;))
+print(&quot;Binary:&quot;, dec_to_bin(user_dec))
+print()
+
+user_bin = input(&quot;Enter a Binary number to convert to Decimal: &quot;)
+print(&quot;Decimal:&quot;, bin_to_dec(user_bin))
+print()
+
+user_hex = input(&quot;Enter a Hexadecimal number to convert to Bin and Dec: &quot;)
+b_val, d_val = hex_to_bin_and_dec(user_hex)
+print(&quot;Binary:&quot;, b_val)
+print(&quot;Decimal:&quot;, d_val)
+print()
+
+print(&quot;Convert a Binary AND a Decimal to Hexadecimal:&quot;)
+user_bin2 = input(&quot;Enter the Binary part: &quot;)
+user_dec2 = int(input(&quot;Enter the Decimal part: &quot;))
+h_bin, h_dec = bin_and_dec_to_hex(user_bin2, user_dec2)
+print(&quot;Hex from Binary:&quot;, h_bin)
+print(&quot;Hex from Decimal:&quot;, h_dec)</pre></details></td></tr><tr><td class="f">GLiu.txt</td><td class="c">1,2,3,4</td><td class="c"><span class="s hi">83</span></td><td>All 6 conversions, good reuse (hex_bin/bin_hex compose others), numbered menu. Binary stored as an int (drops leading zeros), hard-coded if ladders, dead code, lowercase hex crashes, 256 crashes despite prompt &quot;1-256&quot;.</td><td><details><summary>123 lines</summary><pre>#List for hexadecimal values &gt; 10:
+my_list = [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;, &#x27;F&#x27;]
+
+#Decimal to Binary conversion
+def dec_bin(decimal):
+    binary = 0
+    if decimal &gt;= 128:
+        binary = binary + 10000000
+        decimal = decimal - 128
+    if decimal &gt;= 64:
+        binary = binary + 1000000
+        decimal = decimal - 64
+    if decimal &gt;= 32:
+        binary = binary + 100000
+        decimal = decimal - 32
+    if decimal &gt;= 16:
+        binary = binary + 10000
+        decimal = decimal - 16
+    if decimal &gt;= 8:
+        binary = binary + 1000
+        decimal = decimal - 8
+    if decimal &gt;= 4:
+        binary = binary + 100
+        decimal = decimal - 4
+    if decimal &gt;= 2:
+        binary = binary + 10
+        decimal = decimal - 2
+    if decimal &gt;= 1:
+        binary = binary + 1
+    return binary
+
+#Binary to Decimal conversion
+def bin_dec(binary):
+    decimal = 0
+    if binary &gt;= 10000000:
+        decimal = decimal + 128
+        binary = binary - 10000000
+    if binary &gt;= 1000000:
+        decimal = decimal + 64
+        binary = binary - 1000000
+    if binary &gt;= 100000:
+        decimal = decimal + 32
+        binary = binary - 100000
+    if binary &gt;= 10000:
+        decimal = decimal + 16
+        binary = binary - 10000   
+    if binary &gt;= 1000:
+        decimal = decimal + 8
+        binary = binary - 1000
+    if binary &gt;= 100:
+        decimal = decimal + 4
+        binary = binary - 100
+    if binary &gt;= 10:
+        decimal = decimal + 2
+        binary = binary -10
+    if binary &gt;= 1:
+        decimal = decimal + 1
+    return decimal
+
+#Hex to Decimal
+def hex_dec(hexa):
+    decimal = 0
+    for digit in str(hexa):
+        if digit in my_list:
+            value = 10
+        
+            for letter in my_list:
+                if digit == letter:
+                    break
+                value = value + 1 
+        else:
+            value = int(digit)
+        decimal = decimal * 16 + value
+    return decimal
+    
+#Decimal to Hex
+def dec_hex(decimal):
+    hex_chars = &quot;0123456789ABCDEF&quot;
+    first_num = decimal//16
+    second_num = decimal%16
+    return hex_chars[first_num] + hex_chars[second_num]
+    
+    return first_num + second_num
+
+#Hex to Binary
+def hex_bin(hexa):
+    decimal_val = hex_dec(hexa)
+    return dec_bin(decimal_val)
+
+#Binary to Hex
+def bin_hex(binary):
+    decimal_val = bin_dec(binary)
+    return dec_hex(decimal_val)
+
+#Main program
+print(&quot;Select your conversion.&quot;)
+print(&quot;Decimal to Hexadecimal (1), Decimal to Binary (2)&quot;)
+print(&quot;Binary to Hexadecimal (3), Binary to Decimal (4)&quot;)
+print(&quot;Hexadecimal to Binary (5), Hexadecimal to Decimal (6)&quot;)
+print()
+
+
+needed_convert = int(input(&quot;Type conversion needed: &quot;))
+
+#Selection
+if needed_convert == 1: 
+    x = int(input(&quot;Input number 1-256: &quot;))
+    print(&quot;Decimal to Hexadecimal: &quot; + str(dec_hex(x)))
+elif needed_convert == 2: 
+    x = int(input(&quot;Input number 1-256: &quot;))
+    print(&quot;Decimal to Binary: &quot; + str(dec_bin(x)))
+elif needed_convert == 3: 
+    y = int(input(&quot;Input binary(8): &quot;))
+    print(&quot;Binary to Hexadecimal: &quot; + str(bin_hex(y)))
+elif needed_convert == 4:
+    y = int(input(&quot;Input binary(8): &quot;))
+    print(&quot;Binary to Decimal: &quot; + str(bin_dec(y)))
+elif needed_convert == 5: 
+    z = input(&quot;Hex code: &quot;)
+    print(&quot;Hexadecimal to Binary: &quot; + str(hex_bin(z)))
+elif needed_convert == 6:
+    z = input(&quot;Hex code: &quot;)
+    print(&quot;Hexadecimal to Decimal: &quot; + str(hex_dec(z)))</pre></details></td></tr><tr><td class="f">AQirko.txt</td><td class="c">1,2,3,4</td><td class="c"><span class="s hi">80</span></td><td>Each input shows both other bases - nice output. 30+ line elif chain for hex, lowercase hex gives silently WRONG answer (c8 -&gt; 8), 1-char hex crashes, no validation.</td><td><details><summary>87 lines</summary><pre>def dec_to_bin(dec):
+    binary_output = &quot;&quot;
+    for i in range(8,0,-1):
+        if dec - (2 ** (i-1)) &gt;= 0 and dec != 0:
+            binary_output += &quot;1&quot;
+            dec = dec - (2 ** (i-1))
+        else:
+            binary_output += &quot;0&quot;
+    return binary_output
+    
+def bin_to_dec(bin):
+    bin = int(bin)
+    decimal_output = 0
+    for i in range(8,0,-1):
+        if bin &gt;= 10 ** (i-1):
+            bin -= 10 ** (i-1)
+            decimal_output += 2 ** (i-1)
+    return decimal_output
+
+def dec_to_hex(dec):
+    hexadecimal_output = &quot;&quot;
+    for i in range(2, 0, -1):
+        repetitions = dec // (16 ** (i-1))
+        dec -= repetitions * 16
+        if repetitions &lt;= 9:
+            hexadecimal_output += str(repetitions)
+        elif repetitions == 10:
+            hexadecimal_output += &quot;A&quot;
+        elif repetitions == 11:
+            hexadecimal_output += &quot;B&quot;
+        elif repetitions == 12:
+            hexadecimal_output += &quot;C&quot;
+        elif repetitions == 13:
+            hexadecimal_output += &quot;D&quot;
+        elif repetitions == 14:
+            hexadecimal_output += &quot;E&quot;
+        elif repetitions == 15:
+            hexadecimal_output += &quot;F&quot;
+    return hexadecimal_output
+
+def hex_to_dec(hex):
+    decimal_output = 0
+    for i in range(2,0,-1):
+        if hex[-i] == &quot;1&quot;:
+            decimal_output += 1 * (16 ** (i-1))
+        elif hex[-i] == &quot;2&quot;:
+            decimal_output += 2 * (16 ** (i-1))
+        elif hex[-i] == &quot;3&quot;:
+            decimal_output += 3 * (16 ** (i-1))
+        elif hex[-i] == &quot;4&quot;:
+            decimal_output += 4 * (16 ** (i-1))
+        elif hex[-i] == &quot;5&quot;:
+            decimal_output += 5 * (16 ** (i-1))
+        elif hex[-i] == &quot;6&quot;:
+            decimal_output += 6 * (16 ** (i-1))
+        elif hex[-i] == &quot;7&quot;:
+            decimal_output += 7 * (16 ** (i-1))
+        elif hex[-i] == &quot;8&quot;:
+            decimal_output += 8 * (16 ** (i-1))
+        elif hex[-i] == &quot;9&quot;:
+            decimal_output += 9 * (16 ** (i-1))
+        elif hex[-i] == &quot;A&quot;:
+            decimal_output += 10 * (16 ** (i-1))
+        elif hex[-i] == &quot;B&quot;:
+            decimal_output += 11 * (16 ** (i-1))
+        elif hex[-i] == &quot;C&quot;:
+            decimal_output += 12 * (16 ** (i-1))
+        elif hex[-i] == &quot;D&quot;:
+            decimal_output += 13 * (16 ** (i-1))
+        elif hex[-i] == &quot;E&quot;:
+            decimal_output += 14 * (16 ** (i-1))
+        elif hex[-i] == &quot;F&quot;:
+            decimal_output += 15 * (16 ** (i-1))
+    return decimal_output
+    
+selection = int(input(&quot;Input \&quot;1\&quot; to convert decimal, input \&quot;2\&quot; to convert binary, and input \&quot;3\&quot; to convert hexadecimal: &quot;))
+if selection == 1:
+    decimal_input = int(input(&quot;Enter a number from 0 to 255: &quot;))
+    print(&quot;Decimal Input:&quot;, str(decimal_input), &quot;\nBinary Output:&quot;, dec_to_bin(decimal_input), &quot;\nHexadecimal Output:&quot;, dec_to_hex(decimal_input))
+
+elif selection == 2:
+    binary_input = input(&quot;Enter an 8-digit string full of 0&#x27;s and 1&#x27;s: &quot;)
+    print(&quot;Binary Input:&quot;, binary_input, &quot;\nDecimal Output:&quot;, str(bin_to_dec(binary_input)), &quot;\nHexadecimal Output:&quot;, dec_to_hex(bin_to_dec(binary_input)))
+
+elif selection == 3:
+    hexadecimal_input = input(&quot;Enter two characters that can be from 0 to 9 and A to F: &quot;)
+    print(&quot;Hexadecimal Input:&quot;, hexadecimal_input, &quot;\nDecimal Output:&quot;, str(hex_to_dec(hexadecimal_input)), &quot;\nBinary Output:&quot;, dec_to_bin(hex_to_dec(hexadecimal_input)))</pre></details></td></tr><tr><td class="f">RWagner.txt</td><td class="c">1,2</td><td class="c"><span class="s mid">64</span></td><td>Functions + Bin&lt;-&gt;Dec with a repeat loop. `while choice != &quot;Bin&quot; or &quot;Dec&quot;` is always true (no way to exit), debug print left in, binary must be exactly 8 digits or it crashes.</td><td><details><summary>52 lines</summary><pre>#Functions
+
+#Converting to Binary 
+def binarycon(x):
+    finnum = &quot;&quot;
+    binarydiv = [128,64,32,16,8,4,2,1]
+    for i in range(0,8):
+        if x - binarydiv[i] &gt;= 0:
+            finnum += &quot;1&quot;
+            x = x - binarydiv[i]
+        else:
+            finnum += &quot;0&quot;
+    return finnum
+
+#Converting to Decimal
+def deccon(x):
+    x = list(x)
+    print(x)
+    count = 1
+    finnum = 0
+    for i in range(0,8):
+        if x[i] == &quot;1&quot;:
+            finnum += 128/count
+            count *= 2
+        else:
+            count *= 2
+    finnum = int(finnum)
+    return finnum
+      
+#Beginning of program            
+print(&#x27;Number System Conversion&#x27;)
+
+#Choice is not equal to anything, so While loop is false
+choice = &quot;&quot;
+while choice != &quot;Bin&quot; or &quot;Dec&quot;:
+    choice = input(&quot;Are you converting to binary or decimal? (Enter Bin/Dec): &quot;)
+    if choice == &quot;Bin&quot;:
+        #If user wants to convert to binary
+        num = int(input(&quot;Enter a number between 0 and 255: &quot;))
+        fin = binarycon(num)
+        print(&quot;Binary:&quot;,fin)
+        print()
+    elif choice == &quot;Dec&quot;:
+        #If user wants to convert to decimal
+        num = input(&quot;Enter a number between 11111111 and 00000000: &quot;)
+        fin = deccon(num)
+        print(&quot;Decimal:&quot;,fin)
+        print()
+    else:
+        #If the user enters something that is not an option
+        print()
+#Repeats infinitely so the program does not need to be restarted to convert more numbers</pre></details></td></tr><tr><td class="f">JLo.txt</td><td class="c">1</td><td class="c"><span class="s mid">60</span></td><td>Clean, short remainder loop in a function, handles 0. Only Dec-&gt;Bin, no validation.</td><td><details><summary>15 lines</summary><pre>def decimaltobinary():
+    decimal = int(input(&quot;Enter Any Number: &quot;)) 
+    binary = &quot;&quot; #The Actual Binary &quot;Counter&quot;
+    if decimal == 0:
+        binary = 0 
+    else:
+        while (decimal != 0):
+            remainder = decimal%2
+            binary = str(remainder) + binary
+            decimal = decimal // 2
+    print(&quot;Your binary is&quot;,binary)
+        
+
+   
+decimaltobinary()</pre></details></td></tr><tr><td class="f">MNembhard.txt</td><td class="c">1</td><td class="c"><span class="s mid">59</span></td><td>Compact function, fixed 8-bit output. Only Dec-&gt;Bin. Near-identical to AQirko&#x27;s dec_to_bin - check for sharing.</td><td><details><summary>14 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)
+
+def decimal_to_binary(dec):
+    bin = &quot;&quot;
+    for i in range(8,0,-1):
+        if dec - (2 ** (i-1)) &gt;= 0 and dec != 0:
+            bin += &quot;1&quot; 
+            dec = dec - (2 ** (i-1))
+        else: 
+            bin += &quot;0&quot;
+    return bin
+
+dec = int(input(&quot;What decimal value do you want to convert? &quot;))
+print(decimal_to_binary(dec))</pre></details></td></tr><tr><td class="f">SColin-Keita.txt</td><td class="c">1</td><td class="c"><span class="s mid">54</span></td><td>Works, uses a function, 8-bit output. Very verbose (8 hard-coded ifs + 8 variables).</td><td><details><summary>50 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)
+dec = int(input(&quot;input a decimal number &quot;))
+
+def convert_decimal(dec):
+    if dec &gt;= 128:
+        one = 1
+        dec = dec-128
+    else:
+        one = 0
+    if dec &gt;= 64:
+        two = 1
+        dec = dec- 64
+    else:
+        two = 0
+    if dec &gt;= 32:
+        three = 1
+        dec = dec - 32
+    else:
+        three = 0
+    if dec &gt;= 16:
+        four = 1
+        dec = dec-16
+    else:
+        four = 0
+    if dec &gt;= 8:
+        five = 1
+        dec = dec-8
+    else:
+        five = 0
+        
+    if dec &gt;= 4:
+        six = 1
+        dec = dec-4
+    else:
+        six = 0
+    if dec &gt;= 2:
+        seven = 1
+        dec = dec-2
+    else:
+        seven = 0
+    if dec % 2 == 0:
+        eight = 0
+    else:
+        eight = 1
+    binary = (str(one) + str(two) + str(three) + str(four) + str(five) + str(six) + str(seven) + str(eight))
+    return binary
+result = convert_decimal(dec)
+
+
+print(result)</pre></details></td></tr><tr><td class="f">ABhatti_SBifulco.txt</td><td class="c">-</td><td class="c"><span class="s mid">50</span></td><td>Concise loop, pads to 8 bits, 0 works. No function, cryptic names (x, y, z).</td><td><details><summary>22 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)
+
+x = int(input(&quot;Enter a number between 0-255: &quot;))
+
+
+y = &quot;&quot;
+
+
+while x &gt; 0:
+
+    z = x % 2
+
+    y = str(z) + y
+
+    x = x//2
+
+
+while len(y) &lt; 8:
+    y = &quot;0&quot; + y
+    
+
+print(y)</pre></details></td></tr><tr><td class="f">CRuiz_OYounggren.txt</td><td class="c">-</td><td class="c"><span class="s lo">48</span></td><td>Concise remainder loop with labeled output. No function; input 0 prints blank. Conner&#x27;s file says partner submits the rest.</td><td><details><summary>14 lines</summary><pre>#title of program
+print(&#x27;Number System Conversion&#x27;)
+#input the decimal that will be converted into binary
+decimal = int(input(&quot;Enter a decimal number: &quot;))
+
+binary = &quot;&quot;
+
+while decimal &gt; 0:
+    remainder = decimal % 2
+    binary = str(remainder) + binary
+    decimal = decimal // 2
+print(&quot;Binary:&quot;, binary)
+
+#my partner will submit the rest of the work</pre></details></td></tr><tr><td class="f">VWeber.txt</td><td class="c">-</td><td class="c"><span class="s lo">45</span></td><td>Correct 8-bit output, but 8 copy-paste if blocks, no function.</td><td><details><summary>53 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)
+decimal=int(input(&quot;Enter a number between 0 to 255: &quot;))
+
+if decimal - 128 &lt; 0:
+    num1=0
+else:
+    num1=1
+    decimal = decimal - 128
+
+if decimal - 64 &lt; 0:
+    num2=0
+else:
+    num2=1
+    decimal = decimal - 64
+
+if decimal - 32 &lt; 0:
+    num3=0
+else:
+    num3=1
+    decimal = decimal - 32
+    
+if decimal - 16 &lt; 0:
+    num4=0
+else:
+    num4=1
+    decimal = decimal - 16
+    
+if decimal - 8 &lt; 0:
+    num5=0
+else:
+    num5=1
+    decimal = decimal - 8
+    
+if decimal - 4 &lt; 0:
+    num6=0
+else:
+    num6=1
+    decimal = decimal - 4
+    
+if decimal - 2 &lt; 0:
+    num7=0
+else:
+    num7=1
+    decimal = decimal - 2
+    
+if decimal - 1 &lt; 0:
+     num8=0
+else:
+    num8=1
+    decimal = decimal - 1
+    
+print(str(num1) + str(num2) + str(num3) + str(num4) + str(num5) + str(num6) 
++ str(num7) + str(num8))</pre></details></td></tr><tr><td class="f">JGellineau.txt</td><td class="c">-</td><td class="c"><span class="s lo">42</span></td><td>Works but builds binary as an int (drops leading zeros), hard-coded ifs, no function.</td><td><details><summary>31 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)
+
+num = int(input(&quot;Decimal to Binary: &quot;))
+
+binary = 0
+
+if num &gt;= 128:
+        binary = binary + 10000000
+        num = num - 128
+if num &gt;= 64:
+        binary = binary + 1000000
+        num = num - 64
+if num &gt;= 32:
+        binary = binary + 100000
+        num = num - 32
+if num &gt;= 16:
+        binary = binary + 10000
+        num = num - 16
+if num &gt;= 8:
+        binary = binary + 1000
+        num = num - 8
+if num &gt;= 4:
+        binary = binary + 100
+        num = num - 4
+if num &gt;= 2:
+        binary = binary + 10
+        num = num - 2
+if num &gt;= 1:
+        binary = binary + 1
+        num = num - 1
+print(binary)</pre></details></td></tr><tr><td class="f">CMiazga.txt</td><td class="c">-</td><td class="c"><span class="s lo">28</span></td><td>WRONG output for any number &gt;= 128 (for/else bug always resets first bit: 200 -&gt; 01001000). Verbose.</td><td><details><summary>51 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)
+num=int(input(&quot;Pick a number from 1-255: &quot;))
+if num&gt;255:
+    print(&quot;sorry cant convert that number&quot;)
+else:
+    for i in range(1):
+        if num-128&gt;-1:
+            num1=1
+            num=num-128
+        
+        
+    else:
+        num1=0
+    if num-64&gt;-1:
+        num2=1
+        num=num-64
+        
+        
+    else:
+        num2=0
+    if num-32&gt;-1:
+        num3=1
+        num=num-32
+    else:
+        num3=0
+    if num-16&gt;-1:
+        num4=1
+        num=num-16
+    else:
+        num4=0
+    if num-8&gt;-1:
+        num5=1
+        num=num-8
+    else:
+        num5=0
+    if num-4&gt;-1:
+        num6=1
+        num=num-4
+    else:
+        num6=0
+    if num-2&gt;-1:
+        num7=1
+        num=num-2
+    else:
+        num7=0
+    if num-1&gt;-1:
+        num8=1
+        num=num-1
+    else:
+        num8=0
+    print(str(num1)+str(num2)+str(num3)+str(num4)+str(num5)+str(num6)+str(num7)+str(num8))</pre></details></td></tr><tr><td class="f">MArtemyev.txt</td><td class="c">-</td><td class="c"><span class="s lo">10</span></td><td>Does not run: IndentationError (unfinished if). Loop logic started but never printed.</td><td><details><summary>19 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)
+
+x = int(input(&quot;Enter a number between 0-255: &quot;))
+
+
+y = &quot;&quot;
+
+
+while x &gt; 0:
+
+    z = x % 2
+
+    y = str(z) + y
+
+    x = x//2
+
+    
+x1=input(&quot;Which selection do you want to convert: (Binary to Decimal, etc) &quot;)
+if x1==&quot;binary to decimal&quot;:</pre></details></td></tr><tr><td class="f">MSultan_RChaglla.txt</td><td class="c">-</td><td class="c"><span class="s lo">0</span></td><td>Only the title print statement; no conversion.</td><td><details><summary>1 lines</summary><pre>print(&#x27;Number System Conversion&#x27;)</pre></details></td></tr></table></body></html>

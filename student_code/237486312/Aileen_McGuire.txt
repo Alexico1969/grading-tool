@@ -1,0 +1,208 @@
+print('Number System Conversion')
+
+#start menu
+def gui_start():
+    print("Which conversion method are you using?:")
+    print("A - binary to decimal")
+    print("B - binary to hexadecimal")
+    print("C - decimal to binary")
+    print("D - decimal to hexadecimal")
+    print("E - hexadecimal to binary")
+    print("F - hexadecimal to decimal")
+    method = input("choose method: ").lower()
+
+    valid_letters = ["a" , "b" , "c" , "d" , "e" , "f"]
+    if method in valid_letters:
+        method_sort(method)
+
+    else:
+        print("Not a valid choice, try again.")
+        gui_start()
+
+#restart code to menu
+def restart():
+    redo = input("Would you like to do another conversion, yes or no?: ").lower()
+    if redo == "yes":
+        gui_start()
+    elif redo == "no":
+        print("restart code to do another conversion")
+    else:
+        print("not a valid choice")
+        restart()
+        
+#binary to decimal conversion
+def b_d():
+    print("binary -> decimal")
+    
+    number = input("Enter a 1-8 bit binary code: ")
+
+    if 1 <= len(number) <= 8 and all(digit in "01" for digit in number):
+
+        decimal = 0
+
+        for digit in number:
+            decimal = decimal * 2 + int(digit)
+
+        print("Decimal:", decimal)
+        restart()
+
+    else:
+        print("Not a valid number. Try again.")
+        b_d()
+
+#binary to hexadecimal converion
+def b_h():
+    print("binary -> hexadecimal")
+    number = input("Enter a 1-8 bit binary code: ")
+
+    if 1 <= len(number) <= 8 and all(digit in "01" for digit in number):
+        
+        decimal = 0
+
+        for digit in number:
+            decimal = decimal * 2 + int(digit)
+
+        # Convert decimal to hexadecimal
+        hexadecimal = ""
+
+        while decimal > 0:
+            remainder = decimal % 16
+
+            if remainder < 10:
+                hexadecimal = str(remainder) + hexadecimal
+            else:
+                hexadecimal = chr(55 + remainder) + hexadecimal
+
+            decimal = decimal // 16
+
+        print("Hexadecimal:", hexadecimal)
+        
+        restart()
+
+
+    else:
+        print("Not a valid number. Try again.")
+        b_h()
+
+#decimal to binary conversion
+def d_b():
+    print("decimal -> binary")
+    number = input("Enter a decimal number from 1-255: ")
+
+    if number.isdigit() and 1 <= int(number) <= 255:
+        decimal = int(number)
+        binary = ""
+
+        while decimal > 0:
+            remainder = decimal % 2
+            binary = str(remainder) + binary
+            decimal = decimal // 2
+
+        print("Binary:", binary)
+        restart()
+
+    else:
+        print("Not a valid number. Try again.")
+        d_b()
+
+#decimal to hexadecimal conversion
+def d_h():
+    print("decimal -> hexadecimal")
+
+    number = input("Enter a decimal number from 1-255: ")
+
+    if number.isdigit() and 1 <= int(number) <= 255:
+
+        decimal = int(number)
+        hexadecimal = ""
+
+        while decimal > 0:
+            remainder = decimal % 16
+
+            if remainder < 10:
+                hexadecimal = str(remainder) + hexadecimal
+            else:
+                hexadecimal = chr(55 + remainder) + hexadecimal
+# chr returns a single-character string from an integer representing its Unicode code point - puts it back to a letter
+            decimal = decimal // 16
+
+        print("Hexadecimal:", hexadecimal)
+        restart()
+
+    else:
+        print("Not a valid number. Try again.")
+        d_h()
+
+#hexadecimal to binary conversion
+def h_b():
+    print("hexadecimal -> binary")
+
+    number = input("Enter a 1-2 digit hexadecimal number: ").upper()
+#len is how many items are in an object and all is if they are iterable
+    if 1 <= len(number) <= 2 and all(digit in "0123456789ABCDEF" for digit in number):
+
+        decimal = 0
+
+        for digit in number:
+            if digit.isdigit():
+                value = int(digit)
+            else:
+                value = ord(digit) - 55
+#ord is converting it to unicode
+            decimal = decimal * 16 + value
+
+        binary = ""
+
+        while decimal > 0:
+            remainder = decimal % 2
+            binary = str(remainder) + binary
+            decimal = decimal // 2
+
+        print("Binary:", binary)
+        restart()
+
+    else:
+        print("Not a valid number. Try again.")
+        h_b()
+
+#hexadecimal to decimal conversion
+def h_d():
+    print("hexadecimal -> decimal")
+
+    number = input("Enter a 1-2 digit hexadecimal number: ").upper()
+
+    if 1 <= len(number) <= 2 and all(digit in "0123456789ABCDEF" for digit in number):
+
+        decimal = 0
+#is digit makes sure it is a number and upper makes input uppercase
+        for digit in number:
+            if digit.isdigit():
+                value = int(digit)
+            else:
+                value = ord(digit) - 55
+
+            decimal = decimal * 16 + value
+
+        print("Decimal:", decimal)
+        restart()
+
+    else:
+        print("Not a valid number. Try again.")
+        h_d()
+
+#sorts method of conversion
+def method_sort(method):
+    if method == ("a"):
+        b_d()
+    elif method == ("b"):
+        b_h()
+    elif method == ("c"):
+        d_b()
+    elif method == ("d"):
+        d_h()
+    elif method == ("e"):
+        h_b()
+    elif method == ("f"):
+        h_d()
+#start code
+gui_start()

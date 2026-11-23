@@ -1,0 +1,53 @@
+print('Number System Conversion')
+decimal=int(input("Enter a number between 0 to 255: "))
+
+if decimal - 128 < 0:
+    num1=0
+else:
+    num1=1
+    decimal = decimal - 128
+
+if decimal - 64 < 0:
+    num2=0
+else:
+    num2=1
+    decimal = decimal - 64
+
+if decimal - 32 < 0:
+    num3=0
+else:
+    num3=1
+    decimal = decimal - 32
+    
+if decimal - 16 < 0:
+    num4=0
+else:
+    num4=1
+    decimal = decimal - 16
+    
+if decimal - 8 < 0:
+    num5=0
+else:
+    num5=1
+    decimal = decimal - 8
+    
+if decimal - 4 < 0:
+    num6=0
+else:
+    num6=1
+    decimal = decimal - 4
+    
+if decimal - 2 < 0:
+    num7=0
+else:
+    num7=1
+    decimal = decimal - 2
+    
+if decimal - 1 < 0:
+     num8=0
+else:
+    num8=1
+    decimal = decimal - 1
+    
+print(str(num1) + str(num2) + str(num3) + str(num4) + str(num5) + str(num6) 
++ str(num7) + str(num8))

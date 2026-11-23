@@ -1,0 +1,188 @@
+def decimal_binary(dec):
+    dec = str(dec)
+    if dec == " ":
+        return "nope"
+    for char in dec:
+        if char not in "0123456789":
+            return "nope"
+ 
+    dec = int(dec)
+    if dec == 0:
+        return "0"
+    
+    bin1 = ""
+    while dec > 0:
+        rem = dec % 2
+        if rem == 1:
+            bin1 = "1" + bin1
+        else:
+            bin1 = "0" + bin1
+        dec = dec // 2
+    
+    return bin1
+ 
+def bin_dec(binS):
+    binS = str(binS)
+    
+    if binS == " ":
+        return "nope"
+        
+    dec = 0
+    for digit in binS:
+        dec = dec * 2
+        if digit == "1":
+            dec = dec + 1
+        elif digit == "0":
+            dec = dec + 0
+        else:
+            return "nope"
+    return dec
+ 
+def hex_bin_dec(hex1):
+    text = str(hex1)
+    if text == " ":
+        return "nope"
+        
+    decimal_total = 0
+    for char in text:
+        decimal_total = decimal_total * 16
+        if char == "0":
+            decimal_total = decimal_total + 0
+        elif char == "1":
+            decimal_total = decimal_total + 1
+        elif char == "2":
+            decimal_total = decimal_total + 2
+        elif char == "3":
+            decimal_total = decimal_total + 3
+        elif char == "4":
+            decimal_total = decimal_total + 4
+        elif char == "5":
+            decimal_total = decimal_total + 5
+        elif char == "6":
+            decimal_total = decimal_total + 6
+        elif char == "7":
+            decimal_total = decimal_total + 7
+        elif char == "8":
+            decimal_total = decimal_total + 8
+        elif char == "9":
+            decimal_total = decimal_total + 9
+        elif char == "A":
+            decimal_total = decimal_total + 10
+        elif char == "B":
+            decimal_total = decimal_total + 11
+        elif char == "C":
+            decimal_total = decimal_total + 12
+        elif char == "D":
+            decimal_total = decimal_total + 13
+        elif char == "E":
+            decimal_total = decimal_total + 14
+        elif char == "F":
+            decimal_total = decimal_total + 15
+        else:
+            return "nope"
+    bin1 = decimal_binary(decimal_total)
+    return bin1 + " " + str(decimal_total)
+ 
+def bin_to_hex(x):
+    dec = bin_dec(x)
+    if dec == "nope":
+        return "nope"
+    if dec == 0:
+        return "0"
+    hex2 = ""
+    while dec > 0:
+        rem = dec % 16
+        if rem == 10:
+            hex2 = "A" + hex2
+        elif rem == 11:
+            hex2 = "B" + hex2
+        elif rem == 12:
+            hex2 = "C" + hex2
+        elif rem == 13:
+            hex2 = "D" + hex2
+        elif rem == 14:
+            hex2 = "E" + hex2
+        elif rem == 15:
+            hex2 = "F" + hex2
+        else:
+            hex2 = str(rem) + hex2
+        dec = dec // 16
+    return hex2
+ 
+def dec_to_hex(x):
+    x = str(x)
+    if x == " ":
+        return "nope"
+    for char in x:
+        if char not in "0123456789":
+            return "nope"
+    dec = int(x)
+    if dec == 0:
+        return "0"
+    hex2 = ""
+    while dec > 0:
+        rem = dec % 16
+        if rem == 10:
+            hex2 = "A" + hex2
+        elif rem == 11:
+            hex2 = "B" + hex2
+        elif rem == 12:
+            hex2 = "C" + hex2
+        elif rem == 13:
+            hex2 = "D" + hex2
+        elif rem == 14:
+            hex2 = "E" + hex2
+        elif rem == 15:
+            hex2 = "F" + hex2
+        else:
+            hex2 = str(rem) + hex2
+        dec = dec // 16
+    return hex2
+    
+print("1 = decimal to binary")
+print("2 = binary to decimal")
+print("3 = hexadecimal to binary and decimal")
+print("4 = binary or decimal to hexadecimal")
+choice = input("select 1 2 3 or 4:")
+if choice == "1":
+    user_dec = input("enter a decimal: ")
+    result = decimal_binary(user_dec)
+    if result == "nope":
+        print("error")
+    else:
+        print("binary number: " + result)
+ 
+elif choice == "2":
+    user_binary = input("enter a binary: ")
+    result = bin_dec(user_binary)
+    if result == "nope":
+        print("error")
+    else:
+        print("decimal result: " + str(result))
+        
+elif choice == "3":
+    user_hexadecimal = input("enter a hexadecimal: ")
+    result = hex_bin_dec(user_hexadecimal)
+    if result == "nope":
+        print("error")
+    else:
+        print("result: " + result)
+ 
+elif choice == "4":
+    choice1 = input("binary or decimal? ")
+    if choice1 == "binary":
+        user1 = input("enter binary: ")
+        result = bin_to_hex(user1)
+        if result == "nope":
+            print("error")
+        else:
+            print("hexadecimal: " + result)
+    elif choice1 == "decimal":
+        user1 = input("enter decimal: ")
+        result = dec_to_hex(user1)
+        if result == "nope":
+            print("error")
+        else:
+            print("hexadecimal: " + result)
+    else:
+        print("error")

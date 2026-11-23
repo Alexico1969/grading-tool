@@ -1,0 +1,15 @@
+def decimaltobinary():
+    decimal = int(input("Enter Any Number: ")) 
+    binary = "" #The Actual Binary "Counter"
+    if decimal == 0:
+        binary = 0 
+    else:
+        while (decimal != 0):
+            remainder = decimal%2
+            binary = str(remainder) + binary
+            decimal = decimal // 2
+    print("Your binary is",binary)
+        
+
+   
+decimaltobinary()

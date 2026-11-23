@@ -1,0 +1,87 @@
+def dec_to_bin(dec):
+    binary_output = ""
+    for i in range(8,0,-1):
+        if dec - (2 ** (i-1)) >= 0 and dec != 0:
+            binary_output += "1"
+            dec = dec - (2 ** (i-1))
+        else:
+            binary_output += "0"
+    return binary_output
+    
+def bin_to_dec(bin):
+    bin = int(bin)
+    decimal_output = 0
+    for i in range(8,0,-1):
+        if bin >= 10 ** (i-1):
+            bin -= 10 ** (i-1)
+            decimal_output += 2 ** (i-1)
+    return decimal_output
+
+def dec_to_hex(dec):
+    hexadecimal_output = ""
+    for i in range(2, 0, -1):
+        repetitions = dec // (16 ** (i-1))
+        dec -= repetitions * 16
+        if repetitions <= 9:
+            hexadecimal_output += str(repetitions)
+        elif repetitions == 10:
+            hexadecimal_output += "A"
+        elif repetitions == 11:
+            hexadecimal_output += "B"
+        elif repetitions == 12:
+            hexadecimal_output += "C"
+        elif repetitions == 13:
+            hexadecimal_output += "D"
+        elif repetitions == 14:
+            hexadecimal_output += "E"
+        elif repetitions == 15:
+            hexadecimal_output += "F"
+    return hexadecimal_output
+
+def hex_to_dec(hex):
+    decimal_output = 0
+    for i in range(2,0,-1):
+        if hex[-i] == "1":
+            decimal_output += 1 * (16 ** (i-1))
+        elif hex[-i] == "2":
+            decimal_output += 2 * (16 ** (i-1))
+        elif hex[-i] == "3":
+            decimal_output += 3 * (16 ** (i-1))
+        elif hex[-i] == "4":
+            decimal_output += 4 * (16 ** (i-1))
+        elif hex[-i] == "5":
+            decimal_output += 5 * (16 ** (i-1))
+        elif hex[-i] == "6":
+            decimal_output += 6 * (16 ** (i-1))
+        elif hex[-i] == "7":
+            decimal_output += 7 * (16 ** (i-1))
+        elif hex[-i] == "8":
+            decimal_output += 8 * (16 ** (i-1))
+        elif hex[-i] == "9":
+            decimal_output += 9 * (16 ** (i-1))
+        elif hex[-i] == "A":
+            decimal_output += 10 * (16 ** (i-1))
+        elif hex[-i] == "B":
+            decimal_output += 11 * (16 ** (i-1))
+        elif hex[-i] == "C":
+            decimal_output += 12 * (16 ** (i-1))
+        elif hex[-i] == "D":
+            decimal_output += 13 * (16 ** (i-1))
+        elif hex[-i] == "E":
+            decimal_output += 14 * (16 ** (i-1))
+        elif hex[-i] == "F":
+            decimal_output += 15 * (16 ** (i-1))
+    return decimal_output
+    
+selection = int(input("Input \"1\" to convert decimal, input \"2\" to convert binary, and input \"3\" to convert hexadecimal: "))
+if selection == 1:
+    decimal_input = int(input("Enter a number from 0 to 255: "))
+    print("Decimal Input:", str(decimal_input), "\nBinary Output:", dec_to_bin(decimal_input), "\nHexadecimal Output:", dec_to_hex(decimal_input))
+
+elif selection == 2:
+    binary_input = input("Enter an 8-digit string full of 0's and 1's: ")
+    print("Binary Input:", binary_input, "\nDecimal Output:", str(bin_to_dec(binary_input)), "\nHexadecimal Output:", dec_to_hex(bin_to_dec(binary_input)))
+
+elif selection == 3:
+    hexadecimal_input = input("Enter two characters that can be from 0 to 9 and A to F: ")
+    print("Hexadecimal Input:", hexadecimal_input, "\nDecimal Output:", str(hex_to_dec(hexadecimal_input)), "\nBinary Output:", dec_to_bin(hex_to_dec(hexadecimal_input)))

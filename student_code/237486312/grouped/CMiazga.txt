@@ -1,0 +1,52 @@
+
+print('Number System Conversion')
+num=int(input("Pick a number from 1-255: "))
+if num>255:
+    print("sorry cant convert that number")
+else:
+    for i in range(1):
+        if num-128>-1:
+            num1=1
+            num=num-128
+        
+        
+    else:
+        num1=0
+    if num-64>-1:
+        num2=1
+        num=num-64
+        
+        
+    else:
+        num2=0
+    if num-32>-1:
+        num3=1
+        num=num-32
+    else:
+        num3=0
+    if num-16>-1:
+        num4=1
+        num=num-16
+    else:
+        num4=0
+    if num-8>-1:
+        num5=1
+        num=num-8
+    else:
+        num5=0
+    if num-4>-1:
+        num6=1
+        num=num-4
+    else:
+        num6=0
+    if num-2>-1:
+        num7=1
+        num=num-2
+    else:
+        num7=0
+    if num-1>-1:
+        num8=1
+        num=num-1
+    else:
+        num8=0
+    print(str(num1)+str(num2)+str(num3)+str(num4)+str(num5)+str(num6)+str(num7)+str(num8))

@@ -1,0 +1,123 @@
+#List for hexadecimal values > 10:
+my_list = ['A', 'B', 'C', 'D', 'E', 'F']
+
+#Decimal to Binary conversion
+def dec_bin(decimal):
+    binary = 0
+    if decimal >= 128:
+        binary = binary + 10000000
+        decimal = decimal - 128
+    if decimal >= 64:
+        binary = binary + 1000000
+        decimal = decimal - 64
+    if decimal >= 32:
+        binary = binary + 100000
+        decimal = decimal - 32
+    if decimal >= 16:
+        binary = binary + 10000
+        decimal = decimal - 16
+    if decimal >= 8:
+        binary = binary + 1000
+        decimal = decimal - 8
+    if decimal >= 4:
+        binary = binary + 100
+        decimal = decimal - 4
+    if decimal >= 2:
+        binary = binary + 10
+        decimal = decimal - 2
+    if decimal >= 1:
+        binary = binary + 1
+    return binary
+
+#Binary to Decimal conversion
+def bin_dec(binary):
+    decimal = 0
+    if binary >= 10000000:
+        decimal = decimal + 128
+        binary = binary - 10000000
+    if binary >= 1000000:
+        decimal = decimal + 64
+        binary = binary - 1000000
+    if binary >= 100000:
+        decimal = decimal + 32
+        binary = binary - 100000
+    if binary >= 10000:
+        decimal = decimal + 16
+        binary = binary - 10000   
+    if binary >= 1000:
+        decimal = decimal + 8
+        binary = binary - 1000
+    if binary >= 100:
+        decimal = decimal + 4
+        binary = binary - 100
+    if binary >= 10:
+        decimal = decimal + 2
+        binary = binary -10
+    if binary >= 1:
+        decimal = decimal + 1
+    return decimal
+
+#Hex to Decimal
+def hex_dec(hexa):
+    decimal = 0
+    for digit in str(hexa):
+        if digit in my_list:
+            value = 10
+        
+            for letter in my_list:
+                if digit == letter:
+                    break
+                value = value + 1 
+        else:
+            value = int(digit)
+        decimal = decimal * 16 + value
+    return decimal
+    
+#Decimal to Hex
+def dec_hex(decimal):
+    hex_chars = "0123456789ABCDEF"
+    first_num = decimal//16
+    second_num = decimal%16
+    return hex_chars[first_num] + hex_chars[second_num]
+    
+    return first_num + second_num
+
+#Hex to Binary
+def hex_bin(hexa):
+    decimal_val = hex_dec(hexa)
+    return dec_bin(decimal_val)
+
+#Binary to Hex
+def bin_hex(binary):
+    decimal_val = bin_dec(binary)
+    return dec_hex(decimal_val)
+
+#Main program
+print("Select your conversion.")
+print("Decimal to Hexadecimal (1), Decimal to Binary (2)")
+print("Binary to Hexadecimal (3), Binary to Decimal (4)")
+print("Hexadecimal to Binary (5), Hexadecimal to Decimal (6)")
+print()
+
+
+needed_convert = int(input("Type conversion needed: "))
+
+#Selection
+if needed_convert == 1: 
+    x = int(input("Input number 1-256: "))
+    print("Decimal to Hexadecimal: " + str(dec_hex(x)))
+elif needed_convert == 2: 
+    x = int(input("Input number 1-256: "))
+    print("Decimal to Binary: " + str(dec_bin(x)))
+elif needed_convert == 3: 
+    y = int(input("Input binary(8): "))
+    print("Binary to Hexadecimal: " + str(bin_hex(y)))
+elif needed_convert == 4:
+    y = int(input("Input binary(8): "))
+    print("Binary to Decimal: " + str(bin_dec(y)))
+elif needed_convert == 5: 
+    z = input("Hex code: ")
+    print("Hexadecimal to Binary: " + str(hex_bin(z)))
+elif needed_convert == 6:
+    z = input("Hex code: ")
+    print("Hexadecimal to Decimal: " + str(hex_dec(z)))

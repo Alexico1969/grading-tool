@@ -1,0 +1,50 @@
+print('Number System Conversion')
+dec = int(input("input a decimal number "))
+
+def convert_decimal(dec):
+    if dec >= 128:
+        one = 1
+        dec = dec-128
+    else:
+        one = 0
+    if dec >= 64:
+        two = 1
+        dec = dec- 64
+    else:
+        two = 0
+    if dec >= 32:
+        three = 1
+        dec = dec - 32
+    else:
+        three = 0
+    if dec >= 16:
+        four = 1
+        dec = dec-16
+    else:
+        four = 0
+    if dec >= 8:
+        five = 1
+        dec = dec-8
+    else:
+        five = 0
+        
+    if dec >= 4:
+        six = 1
+        dec = dec-4
+    else:
+        six = 0
+    if dec >= 2:
+        seven = 1
+        dec = dec-2
+    else:
+        seven = 0
+    if dec % 2 == 0:
+        eight = 0
+    else:
+        eight = 1
+    binary = (str(one) + str(two) + str(three) + str(four) + str(five) + str(six) + str(seven) + str(eight))
+    return binary
+result = convert_decimal(dec)
+
+
+print(result)

@@ -1,0 +1,14 @@
+print('Number System Conversion')
+
+def decimal_to_binary(dec):
+    bin = ""
+    for i in range(8,0,-1):
+        if dec - (2 ** (i-1)) >= 0 and dec != 0:
+            bin += "1" 
+            dec = dec - (2 ** (i-1))
+        else: 
+            bin += "0"
+    return bin
+
+dec = int(input("What decimal value do you want to convert? "))
+print(decimal_to_binary(dec))

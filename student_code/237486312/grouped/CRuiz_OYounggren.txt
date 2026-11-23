@@ -1,0 +1,16 @@
+# Submitted by: Conner_Ruiz, Ori_Younggren
+
+#title of program
+print('Number System Conversion')
+#input the decimal that will be converted into binary
+decimal = int(input("Enter a decimal number: "))
+
+binary = ""
+
+while decimal > 0:
+    remainder = decimal % 2
+    binary = str(remainder) + binary
+    decimal = decimal // 2
+print("Binary:", binary)
+
+#my partner will submit the rest of the work

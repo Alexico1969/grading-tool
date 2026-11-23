@@ -1,0 +1,31 @@
+print('Number System Conversion')
+
+num = int(input("Decimal to Binary: "))
+
+binary = 0
+
+if num >= 128:
+        binary = binary + 10000000
+        num = num - 128
+if num >= 64:
+        binary = binary + 1000000
+        num = num - 64
+if num >= 32:
+        binary = binary + 100000
+        num = num - 32
+if num >= 16:
+        binary = binary + 10000
+        num = num - 16
+if num >= 8:
+        binary = binary + 1000
+        num = num - 8
+if num >= 4:
+        binary = binary + 100
+        num = num - 4
+if num >= 2:
+        binary = binary + 10
+        num = num - 2
+if num >= 1:
+        binary = binary + 1
+        num = num - 1
+print(binary)

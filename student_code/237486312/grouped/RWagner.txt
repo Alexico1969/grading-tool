@@ -1,0 +1,52 @@
+#Functions
+
+#Converting to Binary 
+def binarycon(x):
+    finnum = ""
+    binarydiv = [128,64,32,16,8,4,2,1]
+    for i in range(0,8):
+        if x - binarydiv[i] >= 0:
+            finnum += "1"
+            x = x - binarydiv[i]
+        else:
+            finnum += "0"
+    return finnum
+
+#Converting to Decimal
+def deccon(x):
+    x = list(x)
+    print(x)
+    count = 1
+    finnum = 0
+    for i in range(0,8):
+        if x[i] == "1":
+            finnum += 128/count
+            count *= 2
+        else:
+            count *= 2
+    finnum = int(finnum)
+    return finnum
+      
+#Beginning of program            
+print('Number System Conversion')
+
+#Choice is not equal to anything, so While loop is false
+choice = ""
+while choice != "Bin" or "Dec":
+    choice = input("Are you converting to binary or decimal? (Enter Bin/Dec): ")
+    if choice == "Bin":
+        #If user wants to convert to binary
+        num = int(input("Enter a number between 0 and 255: "))
+        fin = binarycon(num)
+        print("Binary:",fin)
+        print()
+    elif choice == "Dec":
+        #If user wants to convert to decimal
+        num = input("Enter a number between 11111111 and 00000000: ")
+        fin = deccon(num)
+        print("Decimal:",fin)
+        print()
+    else:
+        #If the user enters something that is not an option
+        print()
+#Repeats infinitely so the program does not need to be restarted to convert more numbers

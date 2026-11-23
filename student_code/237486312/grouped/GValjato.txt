@@ -1,0 +1,38 @@
+def dec_to_bin(dec_num):
+    return bin(dec_num)[2:]
+
+def bin_to_dec(bin_str):
+    return int(bin_str, 2)
+
+def hex_to_bin_and_dec(hex_str):
+    dec_val = int(hex_str, 16)
+    bin_val = bin(dec_val)[2:]
+    return bin_val, dec_val
+
+def bin_and_dec_to_hex(bin_str, dec_num):
+    hex_from_bin = hex(int(bin_str, 2))[2:]
+    hex_from_dec = hex(dec_num)[2:]
+    return hex_from_bin, hex_from_dec
+
+print("--- Number Converter ---")
+
+user_dec = int(input("Enter a Decimal number to convert to Binary: "))
+print("Binary:", dec_to_bin(user_dec))
+print()
+
+user_bin = input("Enter a Binary number to convert to Decimal: ")
+print("Decimal:", bin_to_dec(user_bin))
+print()
+
+user_hex = input("Enter a Hexadecimal number to convert to Bin and Dec: ")
+b_val, d_val = hex_to_bin_and_dec(user_hex)
+print("Binary:", b_val)
+print("Decimal:", d_val)
+print()
+
+print("Convert a Binary AND a Decimal to Hexadecimal:")
+user_bin2 = input("Enter the Binary part: ")
+user_dec2 = int(input("Enter the Decimal part: "))
+h_bin, h_dec = bin_and_dec_to_hex(user_bin2, user_dec2)
+print("Hex from Binary:", h_bin)
+print("Hex from Decimal:", h_dec)
